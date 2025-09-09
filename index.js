@@ -27,6 +27,9 @@ client.messagesTasks = client.config.MESSAGES_TASKS
 client.randomTasks = client.config.RANDOM_TASKS
   ? client.config.RANDOM_TASKS
   : [];
+client.achievements = client.config.ACHIEVEMENTS
+  ? client.config.ACHIEVEMENTS
+  : [];
 client.utils = require("./functions/utils/system");
 client.utils.levels = require("./functions/levels");
 client.utils.guildsXp = {};

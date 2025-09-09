@@ -9,6 +9,12 @@ const taskSchema = new mongoose.Schema({
   done: { type: Boolean, default: false },
 });
 
+const achievementSchema = new mongoose.Schema({
+  type: { type: String, required: true },
+  content: { type: String, required: true },
+  done: { type: Boolean, default: false },
+});
+
 const projects = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
 
@@ -16,7 +22,7 @@ const projects = mongoose.Schema({
   userId: { type: String, required: true },
 
   tasks: { type: [taskSchema], default: [] },
-  achievements: { type: Array, default: [] },
+  achievements: { type: [achievementSchema], default: [] },
 
   totalMessages: { type: Number, default: 0 },
 

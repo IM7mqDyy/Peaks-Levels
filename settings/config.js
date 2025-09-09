@@ -151,4 +151,91 @@ module.exports = {
       target: 0,
     },
   ],
+  ACHIEVEMENTS: [
+    {
+      content: "100 رسالة",
+      type: "text",
+      target: 100,
+      reward: 10,
+    },
+    {
+      content: "500 رسالة",
+      type: "text",
+      target: 500,
+      reward: 100,
+    },
+    {
+      content: "1000 رسالة",
+      type: "text",
+      target: 1000,
+      reward: 150,
+    },
+    {
+      content: "5000 رسالة",
+      type: "text",
+      target: 5000,
+      reward: 550,
+    },
+    {
+      content: "10000 رسالة",
+      type: "text",
+      target: 10000,
+      reward: 1000
+    },
+    {
+      content: "50000 رسالة",
+      type: "text",
+      target: 50000,
+      reward: 3500
+    },
+    {
+      content: "100000 رسالة",
+      type: "text",
+      target: 100000,
+      reward: 5500
+    },
+
+    {
+      content: "100 دقيقة صوتية",
+      type: "voice",
+      target: 100,
+      reward: 10,
+    },
+    {
+      content: "500 دقيقة صوتية",
+      type: "voice",
+      target: 500,
+      reward: 30,
+    },
+    {
+      content: "1000 دقيقة صوتية",
+      type: "voice",
+      target: 1000,
+      reward: 85,
+    },
+    {
+      content: "5000 دقيقة صوتية",
+      type: "voice",
+      target: 5000,
+      reward: 250,
+    },
+    {
+      content: "10000 دقيقة صوتية",
+      type: "voice",
+      target: 10000,
+      reward: 950
+    },
+    {
+      content: "50000 دقيقة صوتية",
+      type: "voice",
+      target: 50000,
+      reward: 3000
+    },
+    {
+      content: "100000 دقيقة صوتية",
+      type: "voice",
+      target: 100000,
+      reward: 4500
+    },
+  ],
 };

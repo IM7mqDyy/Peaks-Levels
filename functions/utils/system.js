@@ -158,7 +158,15 @@ async function drawTasks(ctx, tasks, userData, dd) {
     ctx.textAlign = "start";
     ctx.fillStyle = "white";
     ctx.font = `500 14px "Montserrat-Arabic"`;
-    ctx.fillText(`${++i}. ${task.content}`, task.x, task.z);
+    ctx.fillText(
+      `${++i}. ${task.content}`,
+      task.x,
+      !task.done &&
+        tasks.length !== 1 &&
+        tasks.length === tasks.indexOf(task) + 1
+        ? task.z - 15
+        : task.z
+    );
 
     if (!task.done) {
       let progress = 0;

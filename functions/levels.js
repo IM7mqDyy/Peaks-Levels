@@ -1,13 +1,123 @@
 const mongoose = require("mongoose");
 
-function shuffleArray(arr) {
-  let array = [...arr];
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+async function checkAchievements(userId, userSettings, guildSettings, client) {
+  for (const rule of client.achievements) {
+    const alreadyUnlocked = userSettings.achievements.some(
+      (a) => a.type === rule.type && a.content === rule.content
+    );
+    if (alreadyUnlocked) continue;
+
+    const progressValue =
+      rule.type === "text"
+        ? userSettings.totalMessages
+        : userSettings.voiceTime / 60000;
+
+    if (progressValue >= rule.target) {
+      userSettings.achievements.push({
+        type: rule.type,
+        content: rule.content,
+        done: true,
+      });
+
+      client.socket.emit(
+        "updateOne",
+        { userId },
+        { $inc: { balance: rule.reward } }
+      );
+    }
   }
-  return array;
 }
+
+const ACHIEVEMENTS_CONDITIONS = {
+  text: [
+    {
+      content: "100 رسالة",
+      type: "text",
+      target: 100,
+      reward: 10,
+    },
+    {
+      content: "500 رسالة",
+      type: "text",
+      target: 500,
+      reward: 100,
+    },
+    {
+      content: "1000 رسالة",
+      type: "text",
+      target: 1000,
+      reward: 150,
+    },
+    {
+      content: "5000 رسالة",
+      type: "text",
+      target: 5000,
+      reward: 550,
+    },
+    {
+      content: "10000 رسالة",
+      type: "text",
+      target: 10000,
+      reward: 1000,
+    },
+    {
+      content: "50000 رسالة",
+      type: "text",
+      target: 50000,
+      reward: 3500,
+    },
+    {
+      content: "100000 رسالة",
+      type: "text",
+      target: 100000,
+      reward: 5500,
+    },
+  ],
+  voice: [
+    {
+      content: "100 دقيقة صوتية",
+      type: "voice",
+      target: 100,
+      reward: 10,
+    },
+    {
+      content: "500 دقيقة صوتية",
+      type: "voice",
+      target: 500,
+      reward: 30,
+    },
+    {
+      content: "1000 دقيقة صوتية",
+      type: "voice",
+      target: 1000,
+      reward: 85,
+    },
+    {
+      content: "5000 دقيقة صوتية",
+      type: "voice",
+      target: 5000,
+      reward: 250,
+    },
+    {
+      content: "10000 دقيقة صوتية",
+      type: "voice",
+      target: 10000,
+      reward: 950,
+    },
+    {
+      content: "50000 دقيقة صوتية",
+      type: "voice",
+      target: 50000,
+      reward: 3000,
+    },
+    {
+      content: "100000 دقيقة صوتية",
+      type: "voice",
+      target: 100000,
+      reward: 4500,
+    },
+  ],
+};
 
 const TASK_CONDITIONS = {
   text: [
@@ -185,6 +295,8 @@ const xpUp = async (ms, client) => {
         obj[`data.${userId}`] = randomXp;
         obj[`dataDay.${userId}`] = randomXp;
         obj[`dataWeek.${userId}`] = randomXp;
+
+        checkAchievements(userId, userSettings, collection, client);
 
         for (const task of userSettings.tasks) {
           if (task.done) continue;

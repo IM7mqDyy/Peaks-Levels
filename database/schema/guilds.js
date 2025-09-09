@@ -14,8 +14,6 @@ const projects = mongoose.Schema({
   messages: { type: Object, default: {} },
 
   tasksDay: { type: Number, default: Date.now() },
-
-  achievements: { type: Object, default: {} },
 });
 
 module.exports = mongoose.model("guilds", projects);
