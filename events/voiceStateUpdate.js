@@ -32,7 +32,10 @@ module.exports = {
           tasks: client.utils.levels.generateTasks(client),
         }).save());
 
-      await dd.updateOne({ voiceJoined: null });
+      await dd.updateOne({
+        voiceJoined: null,
+        voiceTime: Date.now() - dd.voiceJoined,
+      });
     }
   },
 };

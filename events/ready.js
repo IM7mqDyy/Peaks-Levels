@@ -22,9 +22,9 @@ module.exports = {
     client.utils.levels.voiceXpUp(120000, client);
 
     const VOICE_RULES = {
-      "AFK 1h in voice room": 3600000,
-      "AFK 2h in voice room": 7200000,
-      "AFK 4h in voice room": 14400000,
+      "اجلس ساعة في روم الصوت": 3600000,
+      "اجلس ساعتين في روم الصوت": 7200000,
+      "اجلس 4 ساعات في روم الصوت": 14400000,
     };
 
     setInterval(() => {
@@ -64,9 +64,27 @@ module.exports = {
                   const requiredTime = VOICE_RULES[task.content];
                   if (
                     requiredTime &&
-                    Date.now() > (dd.voiceJoined + requiredTime)
+                    Date.now() > dd.voiceJoined + requiredTime
                   ) {
                     task.done = true;
+                    const startX = 90;
+                    const startZ = 485;
+                    const spacing = 30;
+
+                    dd.tasks
+                      .filter((task) => task.done === true)
+                      .forEach((task, index) => {
+                        task.x = startX;
+                        task.z = startZ + index * spacing;
+                      });
+
+                    dd.tasks
+                      .filter((task) => task.done === false)
+                      .forEach((task, index) => {
+                        task.x = 380;
+                        task.z = 485 + index * 50;
+                      });
+
                     await dd.updateOne({ tasks: dd.tasks, voiceJoined: null });
                   }
                 }

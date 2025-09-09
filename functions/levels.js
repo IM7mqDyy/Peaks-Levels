@@ -1,66 +1,75 @@
 const mongoose = require("mongoose");
 
+function shuffleArray(arr) {
+  let array = [...arr];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 const TASK_CONDITIONS = {
   text: [
     {
       match: (c, userId) => c.dataDay[userId] >= 1000,
-      content: "Get 1000 xp in daily top",
+      content: "احصل على 1000 اكس بي في التوب اليومي",
     },
     {
       match: (c, userId) => c.dataDay[userId] >= 1500,
-      content: "Get 1500 xp in daily top",
+      content: "احصل على 1500 اكس بي في التوب اليومي",
     },
     {
       match: (c, userId) => c.dataDay[userId] >= 2000,
-      content: "Get 2000 xp in daily top",
+      content: "احصل على 2000 اكس بي في التوب اليومي",
     },
     {
       match: (c, userId) => c.dataDay[userId] >= 2500,
-      content: "Get 2500 xp in daily top",
+      content: "احصل على 2500 اكس بي في التوب اليومي",
     },
     {
       match: (c, userId) => c.dataDay[userId] >= 3000,
-      content: "Get 3000 xp in daily top",
+      content: "احصل على 3000 اكس بي في التوب اليومي",
     },
     {
       match: (c, userId) => c.dataDay[userId] >= 3500,
-      content: "Get 3500 xp in daily top",
+      content: "احصل على 3500 اكس بي في التوب اليومي",
     },
     {
       match: (c, userId) => c.dataDay[userId] >= 4000,
-      content: "Get 4000 xp in daily top",
+      content: "احصل على 4000 اكس بي في التوب اليومي",
     },
     {
       match: (c, userId) => c.dataDay[userId] >= 4500,
-      content: "Get 4500 xp in daily top",
+      content: "احصل على 4500 اكس بي في التوب اليومي",
     },
     {
       match: (c, userId) => c.dataDay[userId] >= 5000,
-      content: "Get 5000 xp in daily top",
+      content: "احصل على 5000 اكس بي في التوب اليومي",
     },
   ],
   messages: [
     {
       match: (c, userId) => c.messages[userId] >= 500,
-      content: "Deal 500 messages today",
+      content: "ارسل 500 رسالة اليوم",
     },
     {
       match: (c, userId) => c.messages[userId] >= 600,
-      content: "Deal 600 messages today",
+      content: "ارسل 600 رسالة اليوم",
     },
     {
       match: (c, userId) => c.messages[userId] >= 700,
-      content: "Deal 700 messages today",
+      content: "ارسل 700 رسالة اليوم",
     },
     {
       match: (c, userId) => c.messages[userId] >= 800,
-      content: "Deal 800 messages today",
+      content: "ارسل 800 رسالة اليوم",
     },
   ],
 };
 
 function generateTasks(client) {
-  return [
+  const tasks = [
     client.textTasks[Math.floor(Math.random() * client.textTasks.length)],
     client.voiceTasks[Math.floor(Math.random() * client.voiceTasks.length)],
     client.messagesTasks[
@@ -68,10 +77,21 @@ function generateTasks(client) {
     ],
     ...client.randomTasks.sort(() => 0.5 - Math.random()).slice(0, 2),
   ];
+
+  const startX = 380;
+  const startZ = 485;
+  const spacing = 50;
+
+  tasks.forEach((task, index) => {
+    task.x = startX;
+    task.z = startZ + index * spacing;
+  });
+
+  return tasks;
 }
 
 async function assignRandomTasks(client) {
-  const users = await client.usersSchema.find({}, "_id"); // only get IDs for speed
+  const users = await client.usersSchema.find({}, "_id");
 
   const operations = users.map((user) => ({
     updateOne: {
@@ -177,6 +197,23 @@ const xpUp = async (ms, client) => {
 
           if (rule.match(collection, userId)) {
             task.done = true;
+            const startX = 90;
+            const startZ = 485;
+            const spacing = 30;
+
+            userSettings.tasks
+              .filter((task) => task.done === true)
+              .forEach((task, index) => {
+                task.x = startX;
+                task.z = startZ + index * spacing;
+              });
+
+            userSettings.tasks
+              .filter((task) => task.done === false)
+              .forEach((task, index) => {
+                task.x = 380;
+                task.z = 485 + index * 50;
+              });
           }
         }
 
@@ -241,6 +278,24 @@ const voiceXpUp = (ms, client) => {
 
             if (rule.match(collection, userId)) {
               task.done = true;
+
+              const startX = 90;
+              const startZ = 485;
+              const spacing = 30;
+
+              userSettings.tasks
+                .filter((task) => task.done === true)
+                .forEach((task, index) => {
+                  task.x = startX;
+                  task.z = startZ + index * spacing;
+                });
+
+              userSettings.tasks
+                .filter((task) => task.done === false)
+                .forEach((task, index) => {
+                  task.x = 380;
+                  task.z = 485 + index * 50;
+                });
             }
           }
 

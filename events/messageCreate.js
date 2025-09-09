@@ -20,5 +20,21 @@ module.exports = {
     obj[message.author.id] = 1 + dd.messages[message.author.id] || 0;
 
     await dd.updateOne({ messages: obj });
+
+    const userData =
+      (await client.usersSchema.findOne({
+        userId: message.author.id,
+        guildId: message.guild.id,
+      })) ||
+      (await new client.usersSchema({
+        _id: new mongoose.Types.ObjectId(),
+        userId: message.author.id,
+        guildId: message.guild.id,
+        tasks: client.utils.levels.generateTasks(client),
+      }).save());
+
+    await userData.updateOne({
+      totalMessages: userData.totalMessages + 1 || 1,
+    });
   },
 };
