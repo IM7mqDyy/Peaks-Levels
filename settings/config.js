@@ -180,19 +180,19 @@ module.exports = {
       content: "10000 رسالة",
       type: "text",
       target: 10000,
-      reward: 1000
+      reward: 1000,
     },
     {
       content: "50000 رسالة",
       type: "text",
       target: 50000,
-      reward: 3500
+      reward: 3500,
     },
     {
       content: "100000 رسالة",
       type: "text",
       target: 100000,
-      reward: 5500
+      reward: 5500,
     },
 
     {
@@ -223,19 +223,375 @@ module.exports = {
       content: "10000 دقيقة صوتية",
       type: "voice",
       target: 10000,
-      reward: 950
+      reward: 950,
     },
     {
       content: "50000 دقيقة صوتية",
       type: "voice",
       target: 50000,
-      reward: 3000
+      reward: 3000,
     },
     {
       content: "100000 دقيقة صوتية",
       type: "voice",
       target: 100000,
-      reward: 4500
+      reward: 4500,
+    },
+  ],
+  SHOP_ITEMS: [
+    {
+      id: 1,
+      price: 500,
+      content: "إيموجيات عامة",
+      description: "فتح استخدام الإيموجيات العامة",
+      time: null,
+      priority: 25,
+      category: "general",
+      emoji: "😊",
+    },
+    {
+      id: 2,
+      price: 850,
+      content: "صور متحركة",
+      description: "إرسال الصور المتحركة",
+      time: null,
+      priority: 25,
+      category: "general",
+      emoji: "🎞️",
+    },
+    {
+      id: 3,
+      price: 1100,
+      content: "الوسائط في الشات العام",
+      description: "إرسال الوسائط داخل الشات العام",
+      time: null,
+      priority: 25,
+      category: "general",
+      emoji: "🖼️",
+    },
+    {
+      id: 4,
+      price: 1250,
+      content: "إضافة إيموجي أو ستيكر",
+      description: "إضافة إيموجيات أو ستيكرات للسيرفر",
+      time: null,
+      priority: 25,
+      category: "general",
+      emoji: "➕",
+    },
+    {
+      id: 5,
+      price: 1750,
+      content: "بث شاشة مباشر",
+      description: "فتح خاصية بث الشاشة المباشر",
+      time: null,
+      priority: 25,
+      category: "general",
+      emoji: "🖥️",
+    },
+    {
+      id: 6,
+      price: 2000,
+      content: "رياكشن على الرسائل",
+      description: "إضافة رياكشنات على الرسائل",
+      time: null,
+      priority: 25,
+      category: "general",
+      emoji: "👍",
+    },
+    {
+      id: 7,
+      price: 3000,
+      content: "الألوان العادية",
+      description: "تخصيص لون عادي",
+      time: null,
+      priority: 25,
+      category: "general",
+      emoji: "🎨",
+    },
+    {
+      id: 8,
+      price: 5000,
+      content: "الألوان المميزة",
+      description: "تخصيص لون مميز",
+      time: null,
+      priority: 25,
+      category: "general",
+      emoji: "🌈",
+    },
+
+    {
+      id: 9,
+      price: 50,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "5m",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 10,
+      price: 100,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "10m",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 11,
+      price: 150,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "15m",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 12,
+      price: 200,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "20m",
+      priority: 40,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 13,
+      price: 250,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "25m",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 14,
+      price: 300,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "30m",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 15,
+      price: 1000,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "1h",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 16,
+      price: 2000,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "2h",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 17,
+      price: 3000,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "3h",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 18,
+      price: 6000,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "6h",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+    {
+      id: 19,
+      price: 12000,
+      content: "دبل اكس بي فويس",
+      description: "مضاعفة نقاط الخبرة من الصوت",
+      time: "12h",
+      priority: 75,
+      category: "voice",
+      emoji: "🎤",
+    },
+
+    {
+      id: 20,
+      price: 50,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "5m",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 21,
+      price: 100,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "10m",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 22,
+      price: 150,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "15m",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 23,
+      price: 200,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "20m",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 24,
+      price: 250,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "25m",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 25,
+      price: 300,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "30m",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 26,
+      price: 1000,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "1h",
+      priority: 40,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 27,
+      price: 2000,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "2h",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 28,
+      price: 3000,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "3h",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 29,
+      price: 6000,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "6h",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+    {
+      id: 30,
+      price: 12000,
+      content: "دبل اكس بي تكست",
+      description: "مضاعفة نقاط الخبرة من الرسائل",
+      time: "12h",
+      priority: 75,
+      category: "text",
+      emoji: "⌨️",
+    },
+
+    {
+      id: 31,
+      price: 350,
+      content: "دبل رسائل",
+      description: "مضاعفة الرسائل",
+      time: "5m",
+      priority: 50,
+      category: "messages",
+      emoji: "💬",
+    },
+    {
+      id: 32,
+      price: 350,
+      content: "دبل رسائل",
+      description: "مضاعفة الرسائل",
+      time: "30m",
+      priority: 50,
+      category: "messages",
+      emoji: "💬",
+    },
+    {
+      id: 33,
+      price: 350,
+      content: "دبل دقائق",
+      description: "مضاعفة دقائق الصوت",
+      time: "5m",
+      priority: 50,
+      category: "minutes",
+      emoji: "⏱️",
+    },
+    {
+      id: 34,
+      price: 350,
+      content: "دبل دقائق",
+      description: "مضاعفة دقائق الصوت",
+      time: "30m",
+      priority: 50,
+      category: "minutes",
+      emoji: "⏱️",
+    },
+
+    {
+      id: 35,
+      price: 150,
+      content: "تخطي مهمة",
+      description: "تجاوز مهمة لمرة واحدة",
+      time: null,
+      priority: 10,
+      category: "special",
+      emoji: "⏭️",
     },
   ],
 };

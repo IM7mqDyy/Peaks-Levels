@@ -18,7 +18,7 @@ module.exports = {
     let user = interaction.options.getMember("user");
     if (!user) user = interaction;
 
-    if (user.user ? user.user.bot : user.bot) return;
+    if (user.user ? user.user.bot : user.bot) return; 
 
     let dd = await client.guildsSchema.findOne({
       guildId: interaction.guild.id,

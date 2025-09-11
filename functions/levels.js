@@ -178,6 +178,84 @@ const TASK_CONDITIONS = {
   ],
 };
 
+function pickRandomWeighted(list, count) {
+  const picked = [];
+  let pool = [...list];
+
+  while (picked.length < count && pool.length > 0) {
+    const totalPercent = pool.reduce((sum, item) => sum + item.priority, 0);
+    let random = Math.random() * totalPercent;
+
+    let chosenIndex = -1;
+    for (let i = 0; i < pool.length; i++) {
+      random -= pool[i].priority;
+      if (random <= 0) {
+        chosenIndex = i;
+        break;
+      }
+    }
+
+    if (chosenIndex !== -1) {
+      picked.push(pool[chosenIndex]);
+      pool.splice(chosenIndex, 1);
+    }
+  }
+  return picked;
+}
+
+function getRandomItemsWithPercent(items, count = 5) {
+  const categories = {
+    text: items.filter((item) => item.category === "text"),
+    voice: items.filter((item) => item.category === "voice"),
+    messages: items.filter((item) => item.category === "messages"),
+    minutes: items.filter((item) => item.category === "minutes"),
+    general: items.filter((item) => item.category === "general"),
+    special: items.filter((item) => item.category === "special"),
+  };
+
+  const result = [];
+
+  const distributions = [
+    { text: 2, voice: 0, messages: 0, minutes: 0 },
+    { text: 0, voice: 2, messages: 0, minutes: 0 },
+    { text: 0, voice: 0, messages: 2, minutes: 0 },
+    { text: 0, voice: 0, messages: 0, minutes: 2 },
+
+    { text: 1, voice: 1, messages: 0, minutes: 0 },
+    { text: 1, voice: 0, messages: 1, minutes: 0 },
+    { text: 1, voice: 0, messages: 0, minutes: 1 },
+    { text: 0, voice: 1, messages: 1, minutes: 0 },
+    { text: 0, voice: 1, messages: 0, minutes: 1 },
+    { text: 0, voice: 0, messages: 1, minutes: 1 },
+  ];
+
+  const chosen =
+    distributions[Math.floor(Math.random() * distributions.length)];
+
+  if (chosen.text > 0 && categories.text.length > 0) {
+    result.push(...pickRandomWeighted(categories.text, chosen.text));
+  }
+  if (chosen.voice > 0 && categories.voice.length > 0) {
+    result.push(...pickRandomWeighted(categories.voice, chosen.voice));
+  }
+
+  if (chosen.messages > 0 && categories.messages.length > 0) {
+    result.push(...pickRandomWeighted(categories.messages, chosen.messages));
+  }
+
+  if (chosen.minutes > 0 && categories.minutes.length > 0) {
+    result.push(...pickRandomWeighted(categories.minutes, chosen.minutes));
+  }
+
+  const remaining = count - result.length;
+  if (remaining > 0) {
+    const pool = [...categories.general, ...categories.special];
+    result.push(...pickRandomWeighted(pool, remaining));
+  }
+
+  return result;
+}
+
 function generateTasks(client) {
   const tasks = [
     client.textTasks[Math.floor(Math.random() * client.textTasks.length)],
@@ -290,7 +368,13 @@ const xpUp = async (ms, client) => {
             tasks: generateTasks(client),
           }).save());
 
-        let randomXp = Math.floor(Math.random() * 10 * data.xp) + 1;
+        userSettings.boosts = userSettings.boosts.filter(
+          (b) => b.expiresAt > Date.now()
+        );
+
+        let randomXp = userSettings.boosts.filter((b) => b.type === "text")
+          ? (Math.floor(Math.random() * 10 * data.xp) + 1) * 2
+          : Math.floor(Math.random() * 10 * data.xp) + 1;
 
         obj[`data.${userId}`] = randomXp;
         obj[`dataDay.${userId}`] = randomXp;
@@ -373,7 +457,13 @@ const voiceXpUp = (ms, client) => {
               tasks: generateTasks(client),
             }).save());
 
-          let randomXp = Math.floor(Math.random() * 2 * data.xp) + 1;
+          userSettings.boosts = userSettings.boosts.filter(
+            (b) => b.expiresAt > Date.now()
+          );
+
+          let randomXp = userSettings.boosts.filter((b) => b.type === "text")
+            ? (Math.floor(Math.random() * 2 * data.xp) + 1) * 2
+            : Math.floor(Math.random() * 2 * data.xp) + 1;
 
           obj[`data.${userId}`] = randomXp;
           obj[`dataDay.${userId}`] = randomXp;
@@ -422,4 +512,4 @@ const voiceXpUp = (ms, client) => {
   }, ms);
 };
 
-module.exports = { xpUp, voiceXpUp, generateTasks };
+module.exports = { xpUp, voiceXpUp, generateTasks, getRandomItemsWithPercent };

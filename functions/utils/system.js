@@ -312,6 +312,15 @@ function drawCenteredText(
   ctx.fillText(text, x, y);
 }
 
+function socketEmitAsync(event, data, client) {
+  return new Promise((resolve, reject) => {
+    client.socket.emit(event, data, (response) => {
+      if (response === null) return reject(new Error("No data returned"));
+      resolve(response);
+    });
+  });
+}
+
 module.exports = {
   drawTasks,
   drawCenteredText,
@@ -324,4 +333,5 @@ module.exports = {
   checkwords,
   rankOfUser,
   checkvoice,
+  socketEmitAsync,
 };

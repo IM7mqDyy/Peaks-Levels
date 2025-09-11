@@ -34,7 +34,9 @@ module.exports = {
 
       await dd.updateOne({
         voiceJoined: null,
-        voiceTime: Date.now() - dd.voiceJoined,
+        voiceTime: dd.boosts.filter((b) => b.type === "minutes")
+          ? (Date.now() - dd.voiceJoined) * 2
+          : Date.now() - dd.voiceJoined,
       });
     }
   },

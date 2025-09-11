@@ -15,6 +15,13 @@ const achievementSchema = new mongoose.Schema({
   done: { type: Boolean, default: false },
 });
 
+const boostsSchema = new mongoose.Schema({
+  type: { type: String, required: true },
+  multiplier: { type: String, required: true },
+  expiresAt: { type: Number, required: true },
+  activatedAt: { type: Number, required: true },
+});
+
 const projects = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
 
@@ -29,6 +36,8 @@ const projects = mongoose.Schema({
   profileColor: { type: String, default: "#595F83" },
   voiceJoined: { type: Number, default: null },
   voiceTime: { type: Number, default: 0 },
+
+  boosts: { type: [boostsSchema], default: [] },
 });
 
 module.exports = mongoose.model("users", projects);

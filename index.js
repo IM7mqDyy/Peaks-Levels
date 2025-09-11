@@ -30,6 +30,7 @@ client.randomTasks = client.config.RANDOM_TASKS
 client.achievements = client.config.ACHIEVEMENTS
   ? client.config.ACHIEVEMENTS
   : [];
+client.shop = client.config.SHOP_ITEMS ? client.config.SHOP_ITEMS : [];
 client.utils = require("./functions/utils/system");
 client.utils.levels = require("./functions/levels");
 client.utils.guildsXp = {};

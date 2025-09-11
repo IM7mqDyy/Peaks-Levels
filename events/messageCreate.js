@@ -16,11 +16,6 @@ module.exports = {
       client.utils.checkwords(message, client, message.member);
     } catch {}
 
-    let obj = dd.messages;
-    obj[message.author.id] = 1 + dd.messages[message.author.id] || 0;
-
-    await dd.updateOne({ messages: obj });
-
     const userData =
       (await client.usersSchema.findOne({
         userId: message.author.id,
@@ -33,8 +28,51 @@ module.exports = {
         tasks: client.utils.levels.generateTasks(client),
       }).save());
 
+    let obj = dd.messages;
+    obj[message.author.id] = userData.boosts.filter(
+      (b) => b.type === "messages"
+    )
+      ? 2 + dd.messages[message.author.id]
+      : 1 + dd.messages[message.author.id] || 0;
+
+    await dd.updateOne({ messages: obj });
+
     await userData.updateOne({
-      totalMessages: userData.totalMessages + 1 || 1,
+      totalMessages: userData.boosts.filter((b) => b.type === "messages")
+        ? userData.totalMessages + 2
+        : userData.totalMessages + 1 || 1,
     });
+
+    if (message.content.toLowerCase() === "hi") {
+      const shopOptions = client.utils.levels.getRandomItemsWithPercent(
+        client.shop,
+        5
+      );
+
+      message.channel.send({
+        components: [
+          {
+            type: 1,
+            components: [
+              {
+                type: 3,
+                custom_id: "shop_menu",
+                placeholder: "🛒 اختر عنصراً من المتجر...",
+                min_values: 1,
+                max_values: 1,
+                options: shopOptions.map((item, idx) => ({
+                  label: `${item.content} ( ${item.price}🪙)`,
+                  description: `${item.description}${
+                    item.time ? ` (${item.time})` : ``
+                  }`,
+                  value: `shop_${item.id}`,
+                  emoji: item.emoji || "🛒",
+                })),
+              },
+            ],
+          },
+        ],
+      });
+    }
   },
 };
