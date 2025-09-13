@@ -9,11 +9,19 @@ const getXpFor = (level) => {
   return Math.floor(base * Math.pow(growth, level - 1));
 };
 
+const getTotalXpFor = (level) => {
+  let xp = 0;
+  for (let i = 1; i <= level; i++) {
+    xp += getXpFor(i);
+  }
+  return xp;
+};
+
 let x = 0;
 const arr = [];
 
-for (var i = 1; i < 196; i++) {
-  let d = getXpFor(i);
+for (var i = 1; i < 100; i++) {
+  let d = getTotalXpFor(i);
   arr.push(d);
 }
 
@@ -25,10 +33,10 @@ const getLevel = (xp) => {
     if (arr[index] === xp) {
       level = index;
     }
-    if (getXpFor(1) > xp) {
+    if (getTotalXpFor(1) > xp) {
       level = -1;
     }
-    if (getXpFor(195) < xp) {
+    if (getTotalXpFor(100) < xp) {
       level = index;
     }
     if (arr[index] < xp && xp < arr[index + 1]) {
@@ -38,15 +46,15 @@ const getLevel = (xp) => {
 
   const thislevel = {
     i: level + 1,
-    xp: getXpFor(level + 1),
+    xp: getTotalXpFor(level + 1),
   };
 
   const nextlevel = {
-    i: level >= 195 ? 195 : level + 2,
+    i: level >= 100 ? 100 : level + 2,
     xp:
-      level >= 195
-        ? getXpFor(195)
-        : getXpFor(thislevel.i + 1) - getXpFor(level + 1),
+      level >= 100
+        ? getTotalXpFor(100)
+        : getTotalXpFor(thislevel.i + 1) - getTotalXpFor(level + 1),
   };
 
   return {
@@ -65,8 +73,8 @@ const getXpPerLevel = (xp) => {
   let x = 0;
   let l = 0;
 
-  for (var i = 0; i < 195; i++) {
-    x = x + getXpFor(i);
+  for (var i = 0; i < 100; i++) {
+    x = x + getTotalXpFor(i);
     l = i;
     if (x == xp) return x - xp;
     if (x > xp) return x - xp;
@@ -78,7 +86,7 @@ const getXpOfLevel = (xp) => {
   let xx = xp;
 
   for (var i = 0; i < x; i++) {
-    xx = xx - getXpFor(i);
+    xx = xx - getTotalXpFor(i);
   }
 
   return xx;
