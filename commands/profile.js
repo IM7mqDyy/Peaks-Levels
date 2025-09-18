@@ -36,7 +36,7 @@ module.exports = {
         _id: new mongoose.Types.ObjectId(),
         userId: user.user ? user.user.id : interaction.user.id,
         guildId: interaction.guild.id,
-        tasks: client.utils.levels.generateTasks(client),
+        tasks: client.utils.levels.generateTasks(client, dd),
       }).save());
 
     const xp = dd["data"][user.user.id] || 0;
@@ -47,18 +47,7 @@ module.exports = {
     Canvas.registerFont(
       path.join(__dirname, "..", "assets", "Montserrat-Arabic-Medium-500.ttf"),
       {
-        family: "Montserrat-Arabic",
-        weight: "500",
-        style: "normal",
-      }
-    );
-
-    Canvas.registerFont(
-      path.join(__dirname, "..", "assets", "Montserrat-Arabic-Bold-700.ttf"),
-      {
-        family: "Montserrat-Arabic",
-        weight: "700",
-        style: "normal",
+        family: "MontserratArabic",
       }
     );
 

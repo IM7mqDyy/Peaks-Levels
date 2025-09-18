@@ -256,15 +256,26 @@ function getRandomItemsWithPercent(items, count = 5) {
   return result;
 }
 
-function generateTasks(client) {
+function generateTasks(client, guildData) {
+  const difficulty = guildData.difficulty || 1;
+
+  const textTasks = client.textTasks.filter((t) => t.difficulty === difficulty);
+  const voiceTasks = client.voiceTasks.filter(
+    (t) => t.difficulty === difficulty
+  );
+  const messagesTasks = client.messagesTasks.filter(
+    (t) => t.difficulty === difficulty
+  );
+  const randomTasks = client.randomTasks.filter(
+    (t) => t.difficulty === difficulty
+  );
+
   const tasks = [
-    client.textTasks[Math.floor(Math.random() * client.textTasks.length)],
-    client.voiceTasks[Math.floor(Math.random() * client.voiceTasks.length)],
-    client.messagesTasks[
-      Math.floor(Math.random() * client.messagesTasks.length)
-    ],
-    ...client.randomTasks.sort(() => 0.5 - Math.random()).slice(0, 2),
-  ];
+    textTasks[Math.floor(Math.random() * textTasks.length)],
+    voiceTasks[Math.floor(Math.random() * voiceTasks.length)],
+    messagesTasks[Math.floor(Math.random() * messagesTasks.length)],
+    ...randomTasks.sort(() => 0.5 - Math.random()).slice(0, 2),
+  ].filter(Boolean);
 
   const startX = 380;
   const startZ = 485;
@@ -278,13 +289,13 @@ function generateTasks(client) {
   return tasks;
 }
 
-async function assignRandomTasks(client) {
+async function assignRandomTasks(client, guildData) {
   const users = await client.usersSchema.find({}, "_id");
 
   const operations = users.map((user) => ({
     updateOne: {
       filter: { _id: user._id },
-      update: { $set: { tasks: generateTasks(client) } },
+      update: { $set: { tasks: generateTasks(client, guildData) } },
     },
   }));
 
@@ -333,7 +344,7 @@ const xpUp = async (ms, client) => {
           },
         });
 
-        await assignRandomTasks(client);
+        await assignRandomTasks(client, collection);
       }
 
       if (
@@ -345,6 +356,20 @@ const xpUp = async (ms, client) => {
             $set: {
               weekDate: Date.now(),
               dataWeek: {},
+            },
+          })
+          .then((d) => {});
+      }
+
+      if (
+        (collection.monthDate || Number(new Date("2015"))) + 2592000000 <
+        Date.now()
+      ) {
+        await collection
+          .updateOne({
+            $set: {
+              monthDate: Date.now(),
+              dataMonth: {},
             },
           })
           .then((d) => {});
@@ -365,7 +390,7 @@ const xpUp = async (ms, client) => {
             _id: new mongoose.Types.ObjectId(),
             userId: userId,
             guildId,
-            tasks: generateTasks(client),
+            tasks: generateTasks(client, collection),
           }).save());
 
         userSettings.boosts = userSettings.boosts.filter(
@@ -379,6 +404,7 @@ const xpUp = async (ms, client) => {
         obj[`data.${userId}`] = randomXp;
         obj[`dataDay.${userId}`] = randomXp;
         obj[`dataWeek.${userId}`] = randomXp;
+        obj[`dataMonth.${userId}`] = randomXp;
 
         checkAchievements(userId, userSettings, collection, client);
 
@@ -454,7 +480,7 @@ const voiceXpUp = (ms, client) => {
               _id: new mongoose.Types.ObjectId(),
               userId: userId,
               guildId,
-              tasks: generateTasks(client),
+              tasks: generateTasks(client, collection),
             }).save());
 
           userSettings.boosts = userSettings.boosts.filter(
@@ -468,6 +494,7 @@ const voiceXpUp = (ms, client) => {
           obj[`data.${userId}`] = randomXp;
           obj[`dataDay.${userId}`] = randomXp;
           obj[`dataWeek.${userId}`] = randomXp;
+          obj[`dataMonth.${userId}`] = randomXp;
 
           for (const task of userSettings.tasks) {
             if (task.done) continue;

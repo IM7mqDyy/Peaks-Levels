@@ -24,7 +24,9 @@ module.exports = {
     const VOICE_RULES = {
       "اجلس ساعة في روم الصوت": 3600000,
       "اجلس ساعتين في روم الصوت": 7200000,
+      "اجلس 3 ساعات في روم الصوت": 10800000,
       "اجلس 4 ساعات في روم الصوت": 14400000,
+      "اجلس 5 ساعات في روم الصوت": 18000000,
     };
 
     setInterval(() => {
@@ -54,7 +56,7 @@ module.exports = {
                   _id: new mongoose.Types.ObjectId(),
                   userId: member.id,
                   guildId: guild.id,
-                  tasks: client.utils.levels.generateTasks(client),
+                  tasks: client.utils.levels.generateTasks(client, settings),
                 }).save());
 
               if (dd.voiceJoined) {

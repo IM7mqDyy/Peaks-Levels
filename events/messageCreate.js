@@ -25,7 +25,7 @@ module.exports = {
         _id: new mongoose.Types.ObjectId(),
         userId: message.author.id,
         guildId: message.guild.id,
-        tasks: client.utils.levels.generateTasks(client),
+        tasks: client.utils.levels.generateTasks(client, dd),
       }).save());
 
     let obj = dd.messages;

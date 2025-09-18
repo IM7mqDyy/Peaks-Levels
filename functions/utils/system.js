@@ -165,7 +165,7 @@ async function drawTasks(ctx, tasks, userData, dd) {
 
     ctx.textAlign = "start";
     ctx.fillStyle = "white";
-    ctx.font = `500 14px "Montserrat-Arabic"`;
+    ctx.font = `14px MontserratArabic`;
     ctx.fillText(
       `${++i}. ${task.content}`,
       task.x,
