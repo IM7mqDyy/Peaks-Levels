@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const rewardSchema = new mongoose.Schema({
+  coins: { type: Number, required: true },
+  xp: { type: Number, required: true },
+});
+
 const taskSchema = new mongoose.Schema({
   type: { type: String, required: true },
   content: { type: String, required: true },
@@ -7,6 +12,7 @@ const taskSchema = new mongoose.Schema({
   x: { type: Number, required: true },
   z: { type: Number, required: true },
   done: { type: Boolean, default: false },
+  reward: { type: rewardSchema, default: {} },
 });
 
 const achievementSchema = new mongoose.Schema({

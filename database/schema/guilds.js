@@ -14,6 +14,7 @@ const projects = mongoose.Schema({
   dataWeek: { type: Object, default: {} },
   dataMonth: { type: Object, default: {} },
   messages: { type: Object, default: {} },
+  messagesLeaderboard: { type: Object, default: {} },
   voice: { type: Object, default: {} },
 
   tasksDay: { type: Number, default: Date.now() },

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ms = require("ms");
 
 async function checkAchievements(userId, userSettings, guildSettings, client) {
   for (const rule of client.achievements) {
@@ -259,15 +260,17 @@ function getRandomItemsWithPercent(items, count = 5) {
 function generateTasks(client, guildData) {
   const difficulty = guildData.difficulty || 1;
 
-  const textTasks = client.textTasks.filter((t) => t.difficulty === difficulty);
+  const textTasks = client.textTasks.filter(
+    (t) => Number(t.difficulty) === Number(difficulty)
+  );
   const voiceTasks = client.voiceTasks.filter(
-    (t) => t.difficulty === difficulty
+    (t) => Number(t.difficulty) === Number(difficulty)
   );
   const messagesTasks = client.messagesTasks.filter(
-    (t) => t.difficulty === difficulty
+    (t) => Number(t.difficulty) === Number(difficulty)
   );
   const randomTasks = client.randomTasks.filter(
-    (t) => t.difficulty === difficulty
+    (t) => Number(t.difficulty) === Number(difficulty)
   );
 
   const tasks = [
@@ -307,7 +310,7 @@ async function assignRandomTasks(client, guildData) {
   }
 }
 
-const xpUp = async (ms, client) => {
+const xpUp = async (timeWithMs, client) => {
   setInterval(async () => {
     const settings = await client.guildsSchema.find({});
 
@@ -323,6 +326,99 @@ const xpUp = async (ms, client) => {
         }).save());
 
       if (collection.dayDate + 86400000 < Date.now()) {
+        const channelForShop = await client.channels.fetch(
+          "1418350238963470449"
+        );
+        const messageForShop = await channelForShop.messages.fetch(
+          "1418350670955942103"
+        );
+
+        const shopOptions = client.utils.levels.getRandomItemsWithPercent(
+          client.shop,
+          5
+        );
+
+        await messageForShop.edit({
+          components: [
+            {
+              type: 1,
+              components: [
+                {
+                  type: 3,
+                  custom_id: "shop_menu",
+                  placeholder: "🛒 اختر عنصراً من المتجر...",
+                  min_values: 1,
+                  max_values: 1,
+                  options: shopOptions.map((item, idx) => ({
+                    label: `${item.content} ( ${item.price}🪙)`,
+                    description: `${item.description}${
+                      item.time ? ` (${item.time})` : ``
+                    }`,
+                    value: `shop_${item.id}`,
+                    emoji: item.emoji || "🛒",
+                  })),
+                },
+              ],
+            },
+          ],
+        });
+
+        const channelForLeaderBoard = await client.channels.fetch(
+          "1418273816467210321"
+        );
+        const messageForLeaderBoard =
+          await channelForLeaderBoard.messages.fetch("1418353534742822932");
+
+        let arr = [];
+
+        Object.keys(collection["data"]).forEach((user) => {
+          arr.push({
+            userId: user,
+            lv: client.utils.getLevel(collection["data"][user]).level.i || 0,
+            messages: collection.messagesLeaderboard[user] || 0,
+            voice: collection.voice[user] || "0m",
+          });
+        });
+
+        arr = arr.sort((a, b) => b.lv - a.lv);
+        let sliced = arr.slice(0, 10);
+
+        let str = ``;
+
+        for (let dat of sliced) {
+          str =
+            str +
+            "\n" +
+            `#${client.utils.rankOfUser(collection["data"], dat.userId)} | <@!${
+              dat.userId
+            }> LV: \`${dat.lv}\`\ | Messages: \`${
+              dat.messages
+            }\`\ | Voice: \`${ms(dat.voice)}\`\  `;
+        }
+
+        await messageForLeaderBoard.edit({
+          embeds: [
+            {
+              color: 0x57f287,
+              author: {
+                name: "📋 Guild Score Leaderboards",
+                icon_url: channelForLeaderBoard.guild.iconURL,
+              },
+              fields: [
+                {
+                  name: "TOP 10 MEMBERS :bookmark_tabs:",
+                  value: `${str}`,
+                },
+              ],
+              timestamp: new Date(),
+              footer: {
+                text: channelForLeaderBoard.guild.name,
+                icon_url: channelForLeaderBoard.guild.iconURL,
+              },
+            },
+          ],
+        });
+
         await collection
           .updateOne({
             $set: {
@@ -393,11 +489,13 @@ const xpUp = async (ms, client) => {
             tasks: generateTasks(client, collection),
           }).save());
 
-        userSettings.boosts = userSettings.boosts.filter(
+        userSettings.boosts = userSettings.boosts.find(
           (b) => b.expiresAt > Date.now()
         );
 
-        let randomXp = userSettings.boosts.filter((b) => b.type === "text")
+        const boostsOfUser = userSettings.boosts || [];
+
+        let randomXp = boostsOfUser.find((b) => b.type === "text")
           ? (Math.floor(Math.random() * 10 * data.xp) + 1) * 2
           : Math.floor(Math.random() * 10 * data.xp) + 1;
 
@@ -419,7 +517,19 @@ const xpUp = async (ms, client) => {
 
           if (rule.match(collection, userId)) {
             task.done = true;
-            const startX = 90;
+
+            client.socket.emit(
+              "updateOne",
+              { userId },
+              { $inc: { balance: task.reward.coins } }
+            );
+
+            obj[`data.${userId}`] = randomXp + task.reward.xp;
+            obj[`dataDay.${userId}`] = randomXp + task.reward.xp;
+            obj[`dataWeek.${userId}`] = randomXp + task.reward.xp;
+            obj[`dataMonth.${userId}`] = randomXp + task.reward.xp;
+
+            const startX = 80;
             const startZ = 485;
             const spacing = 30;
 
@@ -446,7 +556,7 @@ const xpUp = async (ms, client) => {
 
       client.utils.guildsXp[guildId] = {};
     });
-  }, ms);
+  }, timeWithMs);
 };
 
 const voiceXpUp = (ms, client) => {
@@ -483,11 +593,13 @@ const voiceXpUp = (ms, client) => {
               tasks: generateTasks(client, collection),
             }).save());
 
-          userSettings.boosts = userSettings.boosts.filter(
+          userSettings.boosts = userSettings.boosts.find(
             (b) => b.expiresAt > Date.now()
           );
 
-          let randomXp = userSettings.boosts.filter((b) => b.type === "text")
+          const boostsOfUser = userSettings.boosts || [];
+
+          let randomXp = boostsOfUser.find((b) => b.type === "text")
             ? (Math.floor(Math.random() * 2 * data.xp) + 1) * 2
             : Math.floor(Math.random() * 2 * data.xp) + 1;
 
@@ -508,7 +620,18 @@ const voiceXpUp = (ms, client) => {
             if (rule.match(collection, userId)) {
               task.done = true;
 
-              const startX = 90;
+              client.socket.emit(
+                "updateOne",
+                { userId },
+                { $inc: { balance: task.reward.coins } }
+              );
+
+              obj[`data.${userId}`] = randomXp + task.reward.xp;
+              obj[`dataDay.${userId}`] = randomXp + task.reward.xp;
+              obj[`dataWeek.${userId}`] = randomXp + task.reward.xp;
+              obj[`dataMonth.${userId}`] = randomXp + task.reward.xp;
+
+              const startX = 80;
               const startZ = 485;
               const spacing = 30;
 

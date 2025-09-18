@@ -26,9 +26,9 @@ module.exports = {
     Object.keys(dd["data"]).forEach((user) => {
       arr.push({
         userId: user,
-        lv: client.utils.getLevel(dd["data"][user]).level.i,
-        messages: dd.messages[user],
-        voice: dd.voice[user],
+        lv: client.utils.getLevel(dd["data"][user]).level.i || 0,
+        messages: dd.messagesLeaderboard[user] || 0,
+        voice: dd.voice[user] || "0m",
       });
     });
 

@@ -51,7 +51,7 @@ module.exports = {
         {
           voiceJoined: null,
           $inc: {
-            voiceTime: dd.boosts.filter((b) => b.type === "minutes")
+            voiceTime: dd.boosts.find((b) => b.type === "minutes")
               ? (Date.now() - dd.voiceJoined) * 2
               : Date.now() - dd.voiceJoined,
           },

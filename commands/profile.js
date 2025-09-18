@@ -118,6 +118,8 @@ module.exports = {
     });
     const avatar = await Canvas.loadImage(avatarURL);
 
+    await client.utils.drawRank(ctx, data.level.i, client);
+
     ctx.font = "600 31px Montserrat";
     ctx.fillStyle = "#ffffff";
     ctx.fillText(user.user.displayName, 195, 125);

@@ -1,3 +1,6 @@
+const Canvas = require("canvas");
+const path = require("path");
+
 const getXpFor = (level) => {
   const base = 50;
   const growth = 1.12;
@@ -157,6 +160,35 @@ const checkvoice = (guild, member, channel, bot) => {
 
   return bot.utils.guildsVoiceXp[guild.id][member.id];
 };
+
+function getUserRank(level, client) {
+  for (const rank of client.ranks) {
+    if (level >= rank.min && level <= rank.max) {
+      return rank;
+    }
+  }
+  return { name: "Unranked", image: "bronze.png" };
+}
+
+async function drawRank(ctx, level, client) {
+  const rank = getUserRank(level, client);
+
+  try {
+    const bgPath = path.resolve(
+      __dirname,
+      "..",
+      "..",
+      "assets",
+      "ranks",
+      rank.image
+    );
+
+    const img = await Canvas.loadImage(bgPath);
+    ctx.drawImage(img, 87, 302, 70, 70);
+  } catch (err) {
+    console.error("❌ Failed to load image:", err);
+  }
+}
 
 async function drawTasks(ctx, tasks, userData, dd) {
   let i = 0;
@@ -342,4 +374,5 @@ module.exports = {
   rankOfUser,
   checkvoice,
   socketEmitAsync,
+  drawRank,
 };

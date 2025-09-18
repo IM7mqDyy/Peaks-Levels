@@ -31,6 +31,9 @@ client.achievements = client.config.ACHIEVEMENTS
   ? client.config.ACHIEVEMENTS
   : [];
 client.shop = client.config.SHOP_ITEMS ? client.config.SHOP_ITEMS : [];
+client.ranks = client.config.RANK_CONDITIONS
+  ? client.config.RANK_CONDITIONS
+  : [];
 client.utils = require("./functions/utils/system");
 client.utils.levels = require("./functions/levels");
 client.utils.guildsXp = {};
@@ -82,3 +85,11 @@ for (const file of eventFiles) {
 
 client.login(process.env.BOT_TOKEN);
 client.mongoose(process.env.MONGO_DB, {});
+
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection:", reason);
+});

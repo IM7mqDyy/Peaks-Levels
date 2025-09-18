@@ -9,7 +9,7 @@ module.exports = {
         xp: 25,
         coins: 5,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "احصل على 1500 اكس بي في التوب اليومي",
@@ -20,7 +20,7 @@ module.exports = {
         xp: 50,
         coins: 10,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "احصل على 2000 اكس بي في التوب اليومي",
@@ -31,7 +31,7 @@ module.exports = {
         xp: 100,
         coins: 15,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "احصل على 2500 اكس بي في التوب اليومي",
@@ -42,7 +42,7 @@ module.exports = {
         xp: 125,
         coins: 20,
       },
-      difficulity: 2,
+      difficulty: 2,
     },
     {
       content: "احصل على 3000 اكس بي في التوب اليومي",
@@ -53,7 +53,7 @@ module.exports = {
         xp: 150,
         coins: 25,
       },
-      difficulity: 2,
+      difficulty: 2,
     },
     {
       content: "احصل على 3500 اكس بي في التوب اليومي",
@@ -64,7 +64,7 @@ module.exports = {
         xp: 200,
         coins: 30,
       },
-      difficulity: 2,
+      difficulty: 2,
     },
     {
       content: "احصل على 4000 اكس بي في التوب اليومي",
@@ -75,7 +75,7 @@ module.exports = {
         xp: 250,
         coins: 35,
       },
-      difficulity: 3,
+      difficulty: 3,
     },
     {
       content: "احصل على 4500 اكس بي في التوب اليومي",
@@ -86,7 +86,7 @@ module.exports = {
         xp: 300,
         coins: 40,
       },
-      difficulity: 3,
+      difficulty: 3,
     },
     {
       content: "احصل على 5000 اكس بي في التوب اليومي",
@@ -97,7 +97,7 @@ module.exports = {
         xp: 325,
         coins: 45,
       },
-      difficulity: 3,
+      difficulty: 3,
     },
   ],
   VOICE_TASKS: [
@@ -110,7 +110,7 @@ module.exports = {
         xp: 30,
         coins: 6,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "اجلس ساعتين في روم الصوت",
@@ -121,7 +121,7 @@ module.exports = {
         xp: 60,
         coins: 12,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "اجلس 3 ساعات في روم الصوت",
@@ -132,7 +132,7 @@ module.exports = {
         xp: 90,
         coins: 18,
       },
-      difficulity: 2,
+      difficulty: 2,
     },
     {
       content: "اجلس 4 ساعات في روم الصوت",
@@ -143,7 +143,7 @@ module.exports = {
         xp: 120,
         coins: 24,
       },
-      difficulity: 2,
+      difficulty: 2,
     },
     {
       content: "اجلس 5 ساعات في روم الصوت",
@@ -154,7 +154,7 @@ module.exports = {
         xp: 150,
         coins: 30,
       },
-      difficulity: 3,
+      difficulty: 3,
     },
   ],
   MESSAGES_TASKS: [
@@ -167,7 +167,7 @@ module.exports = {
         xp: 25,
         coins: 5,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "ارسل 600 رسالة اليوم",
@@ -178,7 +178,7 @@ module.exports = {
         xp: 50,
         coins: 10,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "ارسل 700 رسالة اليوم",
@@ -189,7 +189,7 @@ module.exports = {
         xp: 75,
         coins: 12,
       },
-      difficulity: 2,
+      difficulty: 2,
     },
     {
       content: "ارسل 800 رسالة اليوم",
@@ -200,7 +200,7 @@ module.exports = {
         xp: 100,
         coins: 18,
       },
-      difficulity: 3,
+      difficulty: 3,
     },
   ],
   RANDOM_TASKS: [
@@ -213,7 +213,7 @@ module.exports = {
         xp: 50,
         coins: 10,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "شارك صورة GIF في الشات",
@@ -224,7 +224,7 @@ module.exports = {
         xp: 60,
         coins: 12,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
     {
       content: "ارسل فيديو في روم الميمز",
@@ -235,7 +235,7 @@ module.exports = {
         xp: 70,
         coins: 14,
       },
-      difficulity: 1,
+      difficulty: 1,
     },
 
     {
@@ -247,7 +247,7 @@ module.exports = {
         xp: 80,
         coins: 16,
       },
-      difficulity: 2,
+      difficulty: 2,
     },
     {
       content: "تفاعل مع 5 رسائل مختلفة",
@@ -258,7 +258,7 @@ module.exports = {
         xp: 90,
         coins: 18,
       },
-      difficulity: 2,
+      difficulty: 2,
     },
     {
       content: "شارك محتوى في الميديا",
@@ -269,7 +269,7 @@ module.exports = {
         xp: 100,
         coins: 20,
       },
-      difficulity: 3,
+      difficulty: 3,
     },
     {
       content: "اقترح فكرة لصناع المحتوى بروم الأفكار",
@@ -280,7 +280,7 @@ module.exports = {
         xp: 120,
         coins: 25,
       },
-      difficulity: 3,
+      difficulty: 3,
     },
   ],
   ACHIEVEMENTS: [
@@ -725,5 +725,40 @@ module.exports = {
       category: "special",
       emoji: "⏭️",
     },
+  ],
+  RANK_CONDITIONS: [
+    { min: 100, max: 100, name: "Apex", image: "apex.png" },
+
+    { min: 95, max: 99, name: "Epic III", image: "epic3.png" },
+    { min: 90, max: 94, name: "Epic II", image: "epic2.png" },
+    { min: 85, max: 89, name: "Epic", image: "epic.png" },
+
+    { min: 80, max: 84, name: "Mythic III", image: "mythic3.png" },
+    { min: 75, max: 79, name: "Mythic II", image: "mythic2.png" },
+    { min: 70, max: 74, name: "Mythic", image: "mythic.png" },
+
+    { min: 65, max: 69, name: "Emerald III", image: "emerald3.png" },
+    { min: 60, max: 64, name: "Emerald II", image: "emerald2.png" },
+    { min: 55, max: 59, name: "Emerald", image: "emerald.png" },
+
+    { min: 50, max: 54, name: "Diamond III", image: "diamond3.png" },
+    { min: 45, max: 49, name: "Diamond II", image: "diamond2.png" },
+    { min: 40, max: 44, name: "Diamond", image: "diamond.png" },
+
+    { min: 35, max: 39, name: "Gold III", image: "gold3.png" },
+    { min: 30, max: 34, name: "Gold II", image: "gold2.png" },
+    { min: 25, max: 29, name: "Gold", image: "gold.png" },
+
+    { min: 20, max: 24, name: "Platinum III", image: "platinum3.png" },
+    { min: 15, max: 19, name: "Platinum II", image: "platinum2.png" },
+    { min: 12, max: 14, name: "Platinum", image: "platinum.png" },
+
+    { min: 10, max: 11, name: "Silver III", image: "silver3.png" },
+    { min: 8, max: 9, name: "Silver II", image: "silver2.png" },
+    { min: 6, max: 7, name: "Silver", image: "silver.png" },
+
+    { min: 5, max: 5, name: "Bronze III", image: "bronze3.png" },
+    { min: 3, max: 4, name: "Bronze II", image: "bronze2.png" },
+    { min: 1, max: 2, name: "Bronze", image: "bronze.png" },
   ],
 };

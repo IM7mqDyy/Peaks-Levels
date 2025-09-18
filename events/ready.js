@@ -1,4 +1,5 @@
 const { REST, Routes } = require("discord.js");
+const mongoose = require("mongoose");
 
 module.exports = {
   name: "clientReady",
@@ -69,7 +70,21 @@ module.exports = {
                     Date.now() > dd.voiceJoined + requiredTime
                   ) {
                     task.done = true;
-                    const startX = 90;
+
+                    client.socket.emit(
+                      "updateOne",
+                      { userId: member.id },
+                      { $inc: { balance: task.reward.coins } }
+                    );
+
+                    let obj = {};
+
+                    obj[`data.${member.id}`] = task.reward.xp;
+                    obj[`dataDay.${member.id}`] = task.reward.xp;
+                    obj[`dataWeek.${member.id}`] = task.reward.xp;
+                    obj[`dataMonth.${member.id}`] = task.reward.xp;
+
+                    const startX = 80;
                     const startZ = 485;
                     const spacing = 30;
 
@@ -88,6 +103,7 @@ module.exports = {
                       });
 
                     await dd.updateOne({ tasks: dd.tasks, voiceJoined: null });
+                    await settings.updateOne({ $inc: obj });
                   }
                 }
               }
