@@ -166,7 +166,7 @@ module.exports = {
       { color: "rgba(0,0,0,0.4)", offsetX: 0, offsetY: 4, blur: 8 }
     );
 
-    client.utils.drawCircleImage(ctx, avatar, 67, 55, 111, 111);
+    client.utils.drawCircleImage(ctx, avatar, 66, 54, 111, 111);
 
     ctx.font = "600 11px Montserrat";
     ctx.fillStyle = "#becfe0";

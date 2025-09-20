@@ -2,14 +2,14 @@ const Canvas = require("canvas");
 const path = require("path");
 
 const getXpFor = (level) => {
-  const base = 50;
-  const growth = 1.12;
-  const maxLevel = 100;
-
   if (level <= 0) return 0;
-  if (level > maxLevel) level = maxLevel;
+  if (level > 100) level = 100;
 
-  return Math.floor(base * Math.pow(growth, level - 1));
+  if (level <= 20) {
+    return Math.floor(100 * Math.pow(1.15, level - 1));
+  } else {
+    return Math.floor(50 * Math.pow(1.12, level - 1));
+  }
 };
 
 const getTotalXpFor = (level) => {
@@ -190,22 +190,40 @@ async function drawRank(ctx, level, client) {
   }
 }
 
+function shortenText(text, maxLength = 20) {
+  if (!text) return "";
+  return text.length > maxLength ? text.slice(0, maxLength) + " ..." : text;
+}
+
 async function drawTasks(ctx, tasks, userData, dd) {
   let i = 0;
+  let prevType = null;
+
   for (const taskId in tasks) {
     const task = tasks[taskId];
 
     ctx.textAlign = "start";
     ctx.fillStyle = "white";
     ctx.font = `14px MontserratArabic`;
-    ctx.fillText(
-      `${++i}. ${task.content}`,
-      task.x,
+
+    let yPos = task.z;
+    if (!task.done && prevType === "random") {
+      yPos -= 15;
+    } else if (
       !task.done &&
-        tasks.length !== 1 &&
-        tasks.length === tasks.indexOf(task) + 1
-        ? task.z - 15
-        : task.z
+      tasks.length !== 1 &&
+      tasks.length === tasks.indexOf(task) + 1 &&
+      prevType === "random"
+    ) {
+      yPos -= 15;
+    }
+
+    ctx.fillText(
+      task.done
+        ? shortenText(`${++i}. ${task.content}`, 30)
+        : `${++i}. ${task.content}`,
+      task.x,
+      yPos
     );
 
     if (!task.done) {
@@ -239,6 +257,8 @@ async function drawTasks(ctx, tasks, userData, dd) {
         }
       }
     }
+
+    if (!task.done) prevType = task.type;
   }
 }
 

@@ -35,6 +35,7 @@ module.exports = {
 
     const userSettings = await client.usersSchema.findOne({
       userId: user.user.id,
+      guildId: interaction.guild.id,
     });
     if (!userSettings) {
       return interaction.reply({

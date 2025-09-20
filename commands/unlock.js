@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -33,8 +33,19 @@ module.exports = {
       });
     }
 
+    const guildSettings = await client.guildsSchema.findOne({
+      guildId: interaction.guild.id,
+    });
+    if (!guildSettings) {
+      return interaction.reply({
+        content: "Guild settings not found.",
+        ephemeral: true,
+      });
+    }
+
     const userSettings = await client.usersSchema.findOne({
       userId: user.user.id,
+      guildId: interaction.guild.id,
     });
     if (!userSettings) {
       return interaction.reply({
@@ -42,6 +53,8 @@ module.exports = {
         ephemeral: true,
       });
     }
+
+    let obj = {};
 
     const index = taskNumber - 1;
     if (!userSettings.tasks[index]) {
@@ -59,6 +72,17 @@ module.exports = {
     }
 
     userSettings.tasks[index].done = true;
+
+    client.socket.emit(
+      "updateOne",
+      { userId: user.user.id },
+      { $inc: { balance: userSettings.tasks[index].reward.coins } }
+    );
+
+    obj[`data.${user.user.id}`] = userSettings.tasks[index].reward.xp;
+    obj[`dataDay.${user.user.id}`] = userSettings.tasks[index].reward.xp;
+    obj[`dataWeek.${user.user.id}`] = userSettings.tasks[index].reward.xp;
+    obj[`dataMonth.${user.user.id}`] = userSettings.tasks[index].reward.xp;
 
     const startX = 90;
     const startZ = 485;
@@ -79,6 +103,7 @@ module.exports = {
       });
 
     await userSettings.save();
+    await guildSettings.updateOne({ $inc: obj });
 
     interaction.reply({
       content: `**✅ Task \`${taskNumber}\` for ${user} has been unlocked!**`,

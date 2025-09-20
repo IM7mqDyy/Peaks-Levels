@@ -53,7 +53,7 @@ module.exports = {
     for (let dat of sliced) {
       if (dat.userId === interaction.user.id) {
         str =
-          str +   
+          str +
           "\n" +
           `**#${client.utils.rankOfUser(dd[range], dat.userId)} | <@!${
             dat.userId

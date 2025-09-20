@@ -489,13 +489,11 @@ const xpUp = async (timeWithMs, client) => {
             tasks: generateTasks(client, collection),
           }).save());
 
-        userSettings.boosts = userSettings.boosts.find(
+        userSettings.boosts = userSettings.boosts.filter(
           (b) => b.expiresAt > Date.now()
         );
 
-        const boostsOfUser = userSettings.boosts || [];
-
-        let randomXp = boostsOfUser.find((b) => b.type === "text")
+        let randomXp = userSettings.boosts.find((b) => b.type === "text")
           ? (Math.floor(Math.random() * 10 * data.xp) + 1) * 2
           : Math.floor(Math.random() * 10 * data.xp) + 1;
 
@@ -593,13 +591,11 @@ const voiceXpUp = (ms, client) => {
               tasks: generateTasks(client, collection),
             }).save());
 
-          userSettings.boosts = userSettings.boosts.find(
+          userSettings.boosts = userSettings.boosts.filter(
             (b) => b.expiresAt > Date.now()
           );
 
-          const boostsOfUser = userSettings.boosts || [];
-
-          let randomXp = boostsOfUser.find((b) => b.type === "text")
+          let randomXp = userSettings.boosts.find((b) => b.type === "text")
             ? (Math.floor(Math.random() * 2 * data.xp) + 1) * 2
             : Math.floor(Math.random() * 2 * data.xp) + 1;
 
